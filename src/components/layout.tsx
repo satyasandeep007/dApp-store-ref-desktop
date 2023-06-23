@@ -214,7 +214,8 @@ function Input(props) {
 export function Hero(props) {
   const { title, subtitle, video, button } = props;
   const { userInfo } = useWeb3AuthContext();
-  //   const { wallet } = useSmartAccountContext();
+  const { selectedAccount }: any = useSmartAccountContext();
+  console.log(selectedAccount?.smartAccountAddress, "smartAccountAddress");
 
   return (
     <>
@@ -241,7 +242,7 @@ export function Hero(props) {
                 onClick={() =>
                   openTransak({
                     email: userInfo.email,
-                    address: "", //wallet?.address,
+                    address: selectedAccount?.smartAccountAddress, //wallet?.address,
                   })
                 }
               >
