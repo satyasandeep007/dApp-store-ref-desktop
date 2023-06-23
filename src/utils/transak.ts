@@ -29,15 +29,15 @@ const initializeTransak = (params) => {
   return transak;
 };
 
-export const openTransak = () => {
+export const openTransak = ({ email, address }) => {
   const transakParams = {
     apiKey: "3758451a-36b9-4f92-a8a5-192bdf9d76de",
     environment: "STAGING",
     defaultCryptoCurrency: "APOLDAI",
-    walletAddress: "",
+    walletAddress: address,
     fiatCurrency: "EUR",
     network: "polygon",
-    email: "sandeep@transak.com",
+    email: email || "sandeep@transak.com",
   };
   console.log(transakParams, "transakParams");
 

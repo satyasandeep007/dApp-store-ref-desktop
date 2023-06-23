@@ -12,6 +12,7 @@ interface web3AuthContextType {
   loading: boolean;
   chainId: number;
   address: string;
+  userInfo: any;
 }
 export const Web3AuthContext = React.createContext<web3AuthContextType>({
   connect: () => Promise.resolve(null),
@@ -22,6 +23,7 @@ export const Web3AuthContext = React.createContext<web3AuthContextType>({
   web3Provider: null,
   chainId: activeChainId,
   address: "",
+  userInfo: null,
 });
 export const useWeb3AuthContext = () => useContext(Web3AuthContext);
 
@@ -36,6 +38,7 @@ type StateType = {
   ethersProvider?: ethers.providers.Web3Provider | null;
   address?: string;
   chainId?: number;
+  userInfo: any;
 };
 const initialState: StateType = {
   provider: null,
@@ -43,11 +46,12 @@ const initialState: StateType = {
   ethersProvider: null,
   address: "",
   chainId: activeChainId,
+  userInfo: null,
 };
 
 export const Web3AuthProvider = ({ children }: any) => {
   const [web3State, setWeb3State] = useState<StateType>(initialState);
-  const { provider, web3Provider, ethersProvider, address, chainId } =
+  const { provider, web3Provider, ethersProvider, address, chainId, userInfo } =
     web3State;
   const [loading, setLoading] = useState(false);
   const [socialLoginSDK, setSocialLoginSDK] = useState<SocialLogin | null>(
@@ -97,12 +101,14 @@ export const Web3AuthProvider = ({ children }: any) => {
       const signer = web3Provider.getSigner();
       const gotAccount = await signer.getAddress();
       const network = await web3Provider.getNetwork();
+      const userInfo = await socialLoginSDK.getUserInfo();
       setWeb3State({
         provider: socialLoginSDK.provider,
         web3Provider: web3Provider,
         ethersProvider: web3Provider,
         address: gotAccount,
         chainId: Number(network.chainId),
+        userInfo,
       });
       setLoading(false);
       return;
@@ -113,12 +119,12 @@ export const Web3AuthProvider = ({ children }: any) => {
     }
     setLoading(true);
     const sdk = new SocialLogin();
-    const signature1 = await sdk.whitelistUrl('https://aanft.vercel.app')
+    const signature1 = await sdk.whitelistUrl("https://aanft.vercel.app");
     await sdk.init({
       chainId: ethers.utils.hexValue(activeChainId).toString(),
       network: "testnet",
       whitelistUrls: {
-        'https://aanft.vercel.app': signature1,
+        "https://aanft.vercel.app": signature1,
       },
     });
     // sdk.showConnectModal();
@@ -164,6 +170,7 @@ export const Web3AuthProvider = ({ children }: any) => {
       ethersProvider: null,
       address: "",
       chainId: activeChainId,
+      userInfo,
     });
     socialLoginSDK.hideWallet();
   }, [socialLoginSDK]);
@@ -179,6 +186,7 @@ export const Web3AuthProvider = ({ children }: any) => {
         web3Provider: web3Provider || null,
         chainId: chainId || 0,
         address: address || "",
+        userInfo: userInfo || null,
       }}
     >
       {children}
