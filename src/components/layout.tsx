@@ -170,7 +170,8 @@ export function Hero(props) {
                             <h1 className="text-[24px]  leading-[28px] md:text-[64px] md:leading-[72px] font-[500] mb-[24px]">{title}</h1>
                             <p className="w-full md:w-[70%] text-[16px] text-[#67666E] leading-[24px] font-[500] mb-[24px]">{subtitle}</p>
                             <Button><a target={"_blank"} href={"https://app.meroku.org"}>{button.text}</a></Button>
-                        </div>
+							<Button className="ml-10" onClick={openTransak}>Buy Crypto</Button>
+						</div>
                     </Row>
                 </div>
                 <div
@@ -397,14 +398,10 @@ export default function Layout(props) {
                                     : buildLoadingCard(5)}
                             </Slider>
                         </div>
-						<div className="container relative">
-								<Row className="justify-between items-center my-[32px]">
-									<Button onClick={openTransak}>Stake USDC</Button>
-								</Row>
-							</div>
                     </section>
                     }
                     {props.children}
+					<ScrollToTopButton />
                 </main>
             </div>
         </>
