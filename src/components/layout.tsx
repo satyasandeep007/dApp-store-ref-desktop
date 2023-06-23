@@ -18,6 +18,7 @@ import { FeaturedCard, SliderButton } from "./card";
 import { Button, Card, DropdownButton } from "./index";
 import { Row } from "./layout/flex";
 import ScrollToTopButton from "./scroll_to_top";
+import { openTransak } from "../utils/transak"
 
 function NavBar(props) {
 	const app = useSelector(getApp);
@@ -37,7 +38,7 @@ function NavBar(props) {
 	return (
 		<Row
 			center
-			className="py-4 px-10 border-b border-b-[#141217] bg-nav-color px-4 py-2 md:py-4 md:px-10 gap-[16px]"
+			className="border-b border-b-[#141217] bg-nav-color px-4 py-2 md:py-4 md:px-10 gap-[16px]"
 		>
 			<div className="flex-initial">
 				<NavItem href="/" className="pr-[20px]">
@@ -666,6 +667,11 @@ export default function Layout(props) {
 								</Slider>
 							</div>
 							<div className="pt-[70px]" id="allDappsScroll" />
+							<div className="container relative">
+								<Row className="justify-between items-center my-[32px]">
+									<Button onClick={openTransak}>Stake USDC</Button>
+								</Row>
+							</div>
 						</section>
 					)}
 
