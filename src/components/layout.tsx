@@ -22,6 +22,7 @@ import ScrollToTopButton from "./scroll_to_top";
 import { openTransak } from "../utils/transak";
 import { useWeb3AuthContext } from "../contexts/SocialLoginContext";
 import { useSmartAccountContext } from "../contexts/SmartAccountContext";
+import TransakModal from "./transak/modal";
 
 function NavBar(props) {
   const DynamicConnect = dynamic(
@@ -213,9 +214,39 @@ function Input(props) {
 
 export function Hero(props) {
   const { title, subtitle, video, button } = props;
+  let [isOpen, setIsOpen] = useState(false);
   const { userInfo } = useWeb3AuthContext();
-  const { selectedAccount }: any = useSmartAccountContext();
+  const { selectedAccount, getSmartAccountBalance }: any =
+    useSmartAccountContext();
   console.log(selectedAccount?.smartAccountAddress, "smartAccountAddress");
+
+  const buyCrypto = () => {
+    return openTransak({
+      email: userInfo.email,
+      address: selectedAccount?.smartAccountAddress, //wallet?.address,
+    });
+  };
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (selectedAccount && selectedAccount.smartAccountAddress) {
+          const balances = await getSmartAccountBalance();
+          console.log(balances, "smartAccountBalance");
+        }
+      } catch (error) {
+        alert(error);
+      }
+    })();
+  }, [selectedAccount]);
 
   return (
     <>
@@ -237,17 +268,18 @@ export function Hero(props) {
                   {button.text}
                 </a>
               </Button>
-              <Button
-                className="ml-10"
-                onClick={() =>
-                  openTransak({
-                    email: userInfo.email,
-                    address: selectedAccount?.smartAccountAddress, //wallet?.address,
-                  })
-                }
-              >
+              <Button className="ml-10" onClick={buyCrypto}>
                 Buy Crypto
               </Button>
+
+              <Button className="ml-10" onClick={openModal}>
+                Transfer Funds
+              </Button>
+              <TransakModal
+                isOpen={isOpen}
+                closeModal={closeModal}
+                buyCrypto={buyCrypto}
+              />
             </div>
           </Row>
         </div>

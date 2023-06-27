@@ -6,6 +6,8 @@
     "@biconomy/core-types": "^2.0.2",
     "@biconomy/smart-account": "^2.0.2",
     "@biconomy/web3-auth": "^2.0.0",
+    "@headlessui/react": "^1.7.15",
+    "@heroicons/react": "^2.0.18",
     "@netlify/plugin-nextjs": "^4.37.4",
     "@next/font": "^13.4.4",
     "@rainbow-me/rainbowkit": "1.0.0",
