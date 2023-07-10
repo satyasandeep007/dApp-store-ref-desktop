@@ -22,7 +22,6 @@ import ScrollToTopButton from "./scroll_to_top";
 import { openTransak } from "../utils/transak";
 import { useWeb3AuthContext } from "../contexts/SocialLoginContext";
 import { useSmartAccountContext } from "../contexts/SmartAccountContext";
-import TransakModal from "./transak/modal";
 
 function NavBar(props) {
   const DynamicConnect = dynamic(
@@ -271,15 +270,6 @@ export function Hero(props) {
               <Button className="ml-10" onClick={buyCrypto}>
                 Buy Crypto
               </Button>
-
-              <Button className="ml-10" onClick={openModal}>
-                Transfer Funds
-              </Button>
-              <TransakModal
-                isOpen={isOpen}
-                closeModal={closeModal}
-                buyCrypto={buyCrypto}
-              />
             </div>
           </Row>
         </div>
